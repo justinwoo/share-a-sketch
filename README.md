@@ -1,5 +1,7 @@
 # Share-a-sketch
 
+-- this project will be WIP for likely 2+ weeks (from dec 14). if you'd like to help, reach out to me on twitter or my personal e-mail. --
+
 This README outlines the details of collaborating on this Ember application.
 A short introduction of this app could easily go here.
 
