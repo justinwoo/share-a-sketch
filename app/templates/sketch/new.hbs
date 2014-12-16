@@ -1,20 +1,5 @@
 <h1>Add a new sketch!</h1>
 
-<div class='sketch-container'>
-  <svg width='800' height='600'>
-    <rect {{bind-attr x=cursorPosX y=cursorPosY width=interval height=interval}}/>
-  </svg>
-</div>
-
-<div class='controls-container'>
-  <button {{action 'moveLeft'}}>Move left</button>
-  <button {{action 'moveUp'}}>Move up</button>
-  <button {{action 'moveDown'}}>Move down</button>
-  <button {{action 'moveRight'}}>Move right</button>
-</div>
-
-<div class='save-button-container'>
-  <button {{action 'save'}}>Save my sketch</button>
-</div>
+{{etch-sketch}}
 
 {{outlet}}

@@ -1,0 +1,24 @@
+<h3>Etch Sketch</h3>
+
+<div class='sketch-container'>
+  <svg width='800' height='600'>
+    {{#each trailViewModel}}
+    <rect {{bind-attr x=x y=y width=interval height=interval}}/>
+    {{/each}}
+    <rect {{bind-attr x=cursorPosX y=cursorPosY width=interval height=interval}} fill="#777"/>
+  </svg>
+</div>
+
+
+<div class='controls-container'>
+  <button {{action 'moveLeft'}}>Move left</button>
+  <button {{action 'moveUp'}}>Move up</button>
+  <button {{action 'moveDown'}}>Move down</button>
+  <button {{action 'moveRight'}}>Move right</button>
+</div>
+
+<div class='save-button-container'>
+  <button {{action 'save'}}>Save my sketch</button>
+</div>
+
+{{yield}}
