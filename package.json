@@ -34,8 +34,11 @@
     "nodemon": "^1.2.1"
   },
   "dependencies": {
+    "chalk": "^0.5.1",
     "good": "^5.0.0",
     "good-console": "^3.0.1",
-    "hapi": "^8.0.0"
+    "hapi": "^8.0.0",
+    "joi": "^5.0.2",
+    "redis": "^0.12.1"
   }
 }
