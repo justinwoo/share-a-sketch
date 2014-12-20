@@ -1,10 +1,7 @@
 <h3>Etch Sketch</h3>
 
 <div class='sketch-container'>
-  <svg width='800' height='600'>
-    {{#each trailViewModel}}
-    <rect {{bind-attr x=x y=y width=interval height=interval}}/>
-    {{/each}}
+  <svg class='sketch-svg' width='800' height='600'>
     <rect {{bind-attr x=cursorPosX y=cursorPosY width=interval height=interval}} fill="#777"/>
   </svg>
 </div>

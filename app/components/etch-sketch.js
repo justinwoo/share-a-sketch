@@ -19,28 +19,13 @@ export default Ember.Component.extend({
   cursorPosX: 0,
   cursorPosY: 0,
   displayHelp: false,
-  trailViewModel: Ember.computed(
-    'trail',
-    function () {
-      var trail = this.get('trail');
-      var interval = this.get('interval');
-      return trail.map(function (a) {
-        var split = a.split(',');
-        return {
-          x: split[0],
-          y: split[1],
-          interval: interval
-        };
-      });
-    }
-  ),
   isValid: Ember.computed(
     'trail',
     function () {
       return this.get('trail').length > 0;
     }
   ),
-  didInsertElement: function () {
+  initializeKeypresses: function () {
     var ctx = this;
     window.onkeypress = function (e) {
       if (e.which === keyCodes.question && e.shiftKey) {
@@ -51,23 +36,26 @@ export default Ember.Component.extend({
       }
       switch (e.which) {
         case keyCodes.h:
-        case keyCodes.a:
+          case keyCodes.a:
           ctx.send('shiftLeft');
-          break;
+        break;
         case keyCodes.j:
-        case keyCodes.s:
+          case keyCodes.s:
           ctx.send('shiftDown');
-          break;
+        break;
         case keyCodes.l:
-        case keyCodes.d:
+          case keyCodes.d:
           ctx.send('shiftRight');
-          break;
+        break;
         case keyCodes.k:
-        case keyCodes.w:
+          case keyCodes.w:
           ctx.send('shiftUp');
-          break;
+        break;
       }
     };
+  },
+  didInsertElement: function () {
+    this.initializeKeypresses();
   },
   moveCursor: function (key, newValue) {
     var x = this.get('cursorPosX');
@@ -76,6 +64,13 @@ export default Ember.Component.extend({
     var trail = this.get('trail');
     if (trail.indexOf(print) === -1) {
       this.set('trail', [print].concat(trail));
+      var interval = this.get('interval');
+      window.d3.selectAll('.sketch-svg')
+      .append('rect')
+      .attr('width', interval)
+      .attr('height', interval)
+      .attr('x', x)
+      .attr('y', y);
     }
     this.set(key, newValue);
   },
