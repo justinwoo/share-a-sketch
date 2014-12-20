@@ -54,6 +54,21 @@ export default Ember.Component.extend({
       }
     };
   },
+  renderTrail: function () {
+    var interval = this.get('interval');
+    var trail = this.get('trail');
+    window.d3.selectAll('.sketch-svg')
+    .data(trail)
+    .append('rect')
+    .attr('width', interval)
+    .attr('height', interval)
+    .attr('x', function (print) {
+      return print.split(',')[0];
+    })
+    .attr('y', function (print) {
+      return print.split(',')[1];
+    });
+  }.observes('trail'),
   didInsertElement: function () {
     this.initializeKeypresses();
   },
@@ -64,13 +79,6 @@ export default Ember.Component.extend({
     var trail = this.get('trail');
     if (trail.indexOf(print) === -1) {
       this.set('trail', [print].concat(trail));
-      var interval = this.get('interval');
-      window.d3.selectAll('.sketch-svg')
-      .append('rect')
-      .attr('width', interval)
-      .attr('height', interval)
-      .attr('x', x)
-      .attr('y', y);
     }
     this.set(key, newValue);
   },
