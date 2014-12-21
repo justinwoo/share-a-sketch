@@ -19,6 +19,7 @@ export default Ember.Component.extend({
   cursorPosX: 0,
   cursorPosY: 0,
   displayHelp: false,
+  d3Model: null,
   isValid: Ember.computed(
     'trail',
     function () {
@@ -57,9 +58,10 @@ export default Ember.Component.extend({
   renderTrail: function () {
     var interval = this.get('interval');
     var trail = this.get('trail');
-    window.d3.selectAll('.sketch-svg')
+    this.get('d3Model')
     .data(trail)
     .append('rect')
+    .attr('class', 'point')
     .attr('width', interval)
     .attr('height', interval)
     .attr('x', function (print) {
@@ -70,6 +72,7 @@ export default Ember.Component.extend({
     });
   }.observes('trail'),
   didInsertElement: function () {
+    this.set('d3Model', window.d3.selectAll('.sketch-svg'));
     this.initializeKeypresses();
   },
   moveCursor: function (key, newValue) {
@@ -89,6 +92,10 @@ export default Ember.Component.extend({
       } else {
         this.set('errorMessage', 'You can\'t save an empty sketch');
       }
+    },
+    clear: function () {
+      this.set('trail', []);
+      this.get('d3Model').selectAll('.point').remove();
     },
     shiftLeft: function () {
       var interval = this.get('interval');
