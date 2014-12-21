@@ -16,7 +16,7 @@ build with `ember build`
 ### The Real McCoy
 
 * run `redis-server` locally
-* `node .` (or `nodemon`)
+* `node .` (or `nodemon . lib/`)
 * Open up [http://localhost:8000](http://localhost:8000).
 
 ### Deploying
