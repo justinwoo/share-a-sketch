@@ -7,7 +7,6 @@
   </svg>
 </div>
 
-
 <div class='controls-container'>
   <button {{action 'shiftLeft'}}>Move left</button>
   <button {{action 'shiftUp'}}>Move up</button>
@@ -19,5 +18,17 @@
   <button {{action 'save'}}>Save my sketch</button>
   <button {{action 'clear'}}>Clear my sketch</button>
 </div>
+
+{{#if displayNewID}}
+<div class='saved-message-container'>
+  This sketch is now saved as <a {{bind-attr href=newIDLink}}>{{newID}}</a>
+</div>
+{{/if}}
+
+{{#if errorMessage}}
+<div class='error-message-container'>
+  <h2>{{errorMessage}}</h2>
+</div>
+{{/if}}
 
 {{yield}}

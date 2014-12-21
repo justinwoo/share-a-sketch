@@ -15,10 +15,15 @@ var keyCodes = {
 
 export default Ember.Component.extend({
   trail: [],
+  displayNewID: false,
+  newID: null,
+  newIDLink: null,
   interval: 10,
   cursorPosX: 0,
   cursorPosY: 0,
   displayHelp: false,
+  displayErrorMessage: false,
+  errorMessage: null,
   d3Model: null,
   isValid: Ember.computed(
     'trail',
@@ -87,8 +92,22 @@ export default Ember.Component.extend({
   },
   actions: {
     save: function () {
+      var ctx = this;
       if (this.get('isValid')) {
-        console.log('save this stuff');
+        window.$.ajax({
+          url: '/api/sketch',
+          method: 'POST',
+          data: {
+            trail: this.get('trail')
+          }
+        }).success(function (response) {
+          ctx.set('displayNewID', true);
+          ctx.set('newID', response.id);
+          ctx.set('newIDLink', '/sketch/' + response.id);
+        }).fail(function (err, msg) {
+          ctx.set('displayErrorMessage', true);
+          ctx.set('errorMessage', 'We blew up with ' + err + msg);
+        });
       } else {
         this.set('errorMessage', 'You can\'t save an empty sketch');
       }

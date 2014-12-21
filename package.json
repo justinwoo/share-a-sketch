@@ -39,6 +39,7 @@
     "good-console": "^3.0.1",
     "hapi": "^8.0.0",
     "joi": "^5.0.2",
+    "object-assign": "^2.0.0",
     "redis": "^0.12.1"
   }
 }
