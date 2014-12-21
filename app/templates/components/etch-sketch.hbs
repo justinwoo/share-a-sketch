@@ -2,7 +2,8 @@
 
 <div class='sketch-container'>
   <svg class='sketch-svg' width='800' height='600'>
-    <rect {{bind-attr x=cursorPosX y=cursorPosY width=interval height=interval}} fill="#777"/>
+    <g class='sketch-trail'/></g>
+    <rect class='sketch-cursor' {{bind-attr x=cursorPosX y=cursorPosY width=interval height=interval}} fill="#777"/>
   </svg>
 </div>
 

@@ -72,7 +72,7 @@ export default Ember.Component.extend({
     });
   }.observes('trail'),
   didInsertElement: function () {
-    this.set('d3Model', window.d3.selectAll('.sketch-svg'));
+    this.set('d3Model', window.d3.selectAll('.sketch-trail'));
     this.initializeKeypresses();
   },
   moveCursor: function (key, newValue) {
