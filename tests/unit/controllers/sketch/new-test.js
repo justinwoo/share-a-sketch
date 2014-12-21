@@ -9,7 +9,7 @@ moduleFor('controller:sketch/new', 'SketchNewController', {
 });
 
 // Replace this with your real tests.
-test('movement actually works', function() {
+test('component works', function() {
   var component = this.subject();
   ok(component);
 });
