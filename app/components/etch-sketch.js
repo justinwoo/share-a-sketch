@@ -20,6 +20,20 @@ function getErrorHandler(context) {
   };
 }
 
+function appendPoints(d3Object, interval) {
+  d3Object
+  .append('rect')
+  .attr('class', 'point')
+  .attr('width', interval)
+  .attr('height', interval)
+  .attr('x', function (print) {
+    return print.split(',')[0];
+  })
+  .attr('y', function (print) {
+    return print.split(',')[1];
+  });
+}
+
 export default Ember.Component.extend({
   trail: [],
   displayNewID: false,
@@ -70,31 +84,30 @@ export default Ember.Component.extend({
   renderTrail: function () {
     var interval = this.get('interval');
     var trail = this.get('trail');
-    this.get('d3Model')
-    .data(trail)
-    .append('rect')
-    .attr('class', 'point')
-    .attr('width', interval)
-    .attr('height', interval)
-    .attr('x', function (print) {
-      return print.split(',')[0];
-    })
-    .attr('y', function (print) {
-      return print.split(',')[1];
-    });
+    appendPoints(
+      this.get('d3Model').data(trail),
+      interval
+    );
   }.observes('trail'),
   didInsertElement: function () {
+    var d3Model = window.d3.selectAll('.sketch-trail');
     var context = this;
     var sketchId = this.get('sketchId');
+    var interval = this.get('interval');
     if (sketchId) {
       window.$.ajax({
         url: '/api/sketch/' + sketchId,
         method: 'GET',
       }).success(function (data) {
         context.set('trail', data.trail);
+        // draw the elements from the data completely
+        appendPoints(
+          d3Model.selectAll('rect').data(data.trail).enter(),
+          interval
+        );
       }).fail(getErrorHandler(context));
     }
-    this.set('d3Model', window.d3.selectAll('.sketch-trail'));
+    this.set('d3Model', d3Model);
     this.initializeKeypresses();
   },
   moveCursor: function (key, newValue) {
