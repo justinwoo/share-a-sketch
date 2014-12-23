@@ -13,6 +13,13 @@ var keyCodes = {
   q: 113
 };
 
+function getErrorHandler(context) {
+  return function (err, msg) {
+    context.set('displayErrorMessage', true);
+    context.set('errorMessage', 'We blew up with ' + err + msg);
+  };
+}
+
 export default Ember.Component.extend({
   trail: [],
   displayNewID: false,
@@ -32,30 +39,30 @@ export default Ember.Component.extend({
     }
   ),
   initializeKeypresses: function () {
-    var ctx = this;
+    var context = this;
     window.onkeypress = function (e) {
       if (e.which === keyCodes.question && e.shiftKey) {
-        ctx.showHelp();
+        context.showHelp();
       }
-      if (e.which === keyCodes.q && ctx.displayHelp) {
-        ctx.hideHelp();
+      if (e.which === keyCodes.q && context.displayHelp) {
+        context.hideHelp();
       }
       switch (e.which) {
         case keyCodes.h:
           case keyCodes.a:
-          ctx.send('shiftLeft');
+          context.send('shiftLeft');
         break;
         case keyCodes.j:
           case keyCodes.s:
-          ctx.send('shiftDown');
+          context.send('shiftDown');
         break;
         case keyCodes.l:
           case keyCodes.d:
-          ctx.send('shiftRight');
+          context.send('shiftRight');
         break;
         case keyCodes.k:
           case keyCodes.w:
-          ctx.send('shiftUp');
+          context.send('shiftUp');
         break;
       }
     };
@@ -77,6 +84,16 @@ export default Ember.Component.extend({
     });
   }.observes('trail'),
   didInsertElement: function () {
+    var context = this;
+    var sketchId = this.get('sketchId');
+    if (sketchId) {
+      window.$.ajax({
+        url: '/api/sketch/' + sketchId,
+        method: 'GET',
+      }).success(function (data) {
+        context.set('trail', data.trail);
+      }).fail(getErrorHandler(context));
+    }
     this.set('d3Model', window.d3.selectAll('.sketch-trail'));
     this.initializeKeypresses();
   },
@@ -92,7 +109,7 @@ export default Ember.Component.extend({
   },
   actions: {
     save: function () {
-      var ctx = this;
+      var context = this;
       if (this.get('isValid')) {
         window.$.ajax({
           url: '/api/sketch',
@@ -101,13 +118,10 @@ export default Ember.Component.extend({
             trail: this.get('trail')
           }
         }).success(function (response) {
-          ctx.set('displayNewID', true);
-          ctx.set('newID', response.id);
-          ctx.set('newIDLink', '/sketch/' + response.id);
-        }).fail(function (err, msg) {
-          ctx.set('displayErrorMessage', true);
-          ctx.set('errorMessage', 'We blew up with ' + err + msg);
-        });
+          context.set('displayNewID', true);
+          context.set('newID', response.id);
+          context.set('newIDLink', '/sketches/' + response.id);
+        }).fail(getErrorHandler(context));
       } else {
         this.set('errorMessage', 'You can\'t save an empty sketch');
       }
