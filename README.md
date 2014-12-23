@@ -1,7 +1,5 @@
 # Share-a-sketch [![Build Status](https://travis-ci.org/kimagure/share-a-sketch.svg)](https://travis-ci.org/kimagure/share-a-sketch)
 
--- this project will be WIP for likely 2+ weeks (from dec 14). if you'd like to help, reach out to me on twitter or my personal e-mail. --
-
 ## Running / Development
 
 ### UI only
@@ -18,7 +16,3 @@ build with `ember build`
 * run `redis-server` locally
 * `node .` (or `nodemon . lib/`)
 * Open up [http://localhost:8000](http://localhost:8000).
-
-### Deploying
-
-TODO
